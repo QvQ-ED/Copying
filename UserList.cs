@@ -4,11 +4,20 @@ using System.Text;
 
 namespace _1
 {
-    class UserList
+    class UserList//用户集合类
     {
-       public User[] data = null;
+        //字段 属性 构造函数 方法
+        private User[] data = null;
+        private int currentIndex;
+        
+        public int Count
+        {
+            get { return currentIndex; }
 
-        public UserList() 
+
+        }
+
+        public UserList()
         {
             data = new User[8];//8个user对象
         }
@@ -18,19 +27,28 @@ namespace _1
             data = new User[capacity];
         }
 
+        private void CheckCapacity()
+        {
+            //判断是否超出容量
+            if (currentIndex >= data.Length)
+            {
+                User[] newData = new User[data.Length * 2];//扩容
+                data.CopyTo(newData, 0);//拷贝
+                data = newData;
+            }
+        }
         public void Add(User value)
         {
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i].loginId = value.loginId;
-                data[i].password = value.password;
+            CheckCapacity();
+            data[currentIndex++] = value;
+           
                 //这里的value不是数值，相当于一个user类型的对象，回归传参最基础的用法
             }
         }
 
         public User GetElement(int index)
         {
-            return data[index];
+            return this.data[index];
         }
 
     }
